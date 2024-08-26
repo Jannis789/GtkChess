@@ -1,0 +1,97 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $GtkChessWindow: Adw.ApplicationWindow {
+    default-width: 700;
+    default-height: 500;
+    width-request: 500;
+    height-request: 550;
+    Adw.Breakpoint {
+        condition("max-width: 650sp") setters {
+		sideBar.visible: false;
+		aspectFrame.ratio: 1;
+        }
+    }
+
+    content: Adw.ToastOverlay {
+        child: Adw.ToolbarView {
+            [top] Adw.HeaderBar {
+                [end] Gtk.MenuButton {
+                    icon-name: 'open-menu-symbolic';
+                    menu-model: primary_menu;
+                    primary: true;
+                    tooltip-text: _('Main Menu');
+                }
+            }
+
+            AspectFrame aspectFrame {
+                xalign: 0.5;
+                yalign: 0.5;
+                margin-end: 10;
+                margin-top: 10;
+                margin-start: 10;
+                margin-bottom: 10;
+                obey-child: false;
+                ratio: 1.5;
+
+                Gtk.Grid {
+                    row-homogeneous: true;
+                    column-homogeneous: true;
+                    column-spacing: 10;
+                    [start]
+                    AspectFrame {
+                        layout {
+                            column: 0;
+                            row: 0;
+                            column-span: 2;
+                            row-span: 2;
+                        }
+                        xalign: 0.5;
+                        yalign: 0.5;
+                        obey-child: false;
+                        ratio: 1;
+                        Box innerBox {
+                            margin-bottom: 10;
+                            margin-top: 10;
+                            margin-start: 10;
+                            margin-end: 10;
+
+                        }
+
+                        styles ["card"]
+                    }
+                    [end]
+                    Box sideBar {
+
+                        layout {
+                            column: 2;
+                            row: 0;
+                            column-span: 1;
+                            row-span: 2;
+                        }
+                        styles ["card"]
+                    }
+                }
+            }
+        };
+    };
+}
+
+menu primary_menu {
+    section {
+        item {
+            label: _('_Preferences');
+            action: 'app.preferences';
+        }
+
+        item {
+            label: _('_Keyboard Shortcuts');
+            action: 'win.show-help-overlay';
+        }
+
+        item {
+            label: _('_About GtkChess');
+            action: 'app.about';
+        }
+    }
+}
